@@ -1,0 +1,26 @@
+<div class="container2">
+
+  <h2 class="header"> Edit Survey </h2>
+
+  <form action="/surveys/<%= @survey.id %>" method='POST' class="form">
+    <input type="hidden" name="_method" value="PUT">
+    <br><br>
+    <input type="text" name="title" placeholder="Survey Title" value="<%= @survey.title%>" />
+    <br><br>
+    <% i = 1%>
+    <% @questions.each do |question| %>
+      <div>
+        <span class="input"><input type="text" name="questions[question<%= i %>[title]]" value="<%= question.title %>"></span>
+        <% index = 1 %>
+        <% question.choices.each  do |choice| %>
+          <span class="input"><input type="text" name="questions[question<%= i %>[choice<%= index %>]]" value="<%= choice.title %>"></span>
+          <% index += 1 %>
+        <% end %>
+      </div>
+      <% i += 1 %>
+    <% end %>
+    <br><br>
+    <input type="submit" value="Update" class="btn">
+  </form>
+
+</div>
