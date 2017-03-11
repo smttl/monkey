@@ -1,0 +1,34 @@
+<div class="container">
+
+<div class="response">Participants: <%= @responses.distinct.count(:user_id) %></div>
+
+<h3> <%= @survey.title %></h3>
+
+  <% @questions.each do |question|%>
+    <div>
+      <p class="question_title"><%= question.title %>:</p>
+      <ol class="options">
+       <% question.all_choices.each do |choice|%>
+          <li>
+            <name="<%=question.id%>" value="<%= choice.id %>"><%=choice.title%><span class="count"><%= @responses.where(question: question, choice: choice).count %></span>
+          </li>
+       <% end %><br>
+     </ol>
+    </div>
+  <% end %>
+
+  <% if session[:user_id] == @survey.user_id %>
+    <form action="/surveys/<%= @survey.id %>/edit" method="GET">
+        <input class="btn" type="submit" value="Edit">
+    </form>
+    <br>
+  <% end %>
+
+  <% if session[:user_id] == @survey.user_id %>
+    <form action="/surveys/<%= @survey.id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <input class="btn" type="submit" value="Remove">
+    </form>
+  <% end %>
+
+</div>
